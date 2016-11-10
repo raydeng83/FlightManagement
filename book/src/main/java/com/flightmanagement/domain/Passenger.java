@@ -12,11 +12,11 @@ public class Passenger {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    long id;
+    private long id;
 
-    String firstName;
-    String lastName;
-    String gender;
+    private String firstName;
+    private String lastName;
+    private String gender;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="BOOKING_ID")

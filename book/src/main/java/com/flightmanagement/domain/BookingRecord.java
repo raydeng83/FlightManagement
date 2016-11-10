@@ -7,6 +7,8 @@ import java.util.Set;
 /**
  * Created by z00382545 on 11/10/16.
  */
+
+@Entity
 public class BookingRecord {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -21,7 +23,7 @@ public class BookingRecord {
     private String status;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="bookingRecord")
-    Set<Passenger> passengers;
+    private Set<Passenger> passengers;
 
     public BookingRecord() {
     }
