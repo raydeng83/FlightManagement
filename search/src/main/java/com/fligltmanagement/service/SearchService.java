@@ -1,0 +1,53 @@
+package com.fligltmanagement.service;
+
+import com.fligltmanagement.domain.Flight;
+import com.fligltmanagement.domain.Inventory;
+import com.fligltmanagement.domain.SearchQuery;
+import com.fligltmanagement.repository.FlightRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+/**
+ * Created by z00382545 on 11/10/16.
+ */
+
+@Service
+public class SearchService {
+    private FlightRepository flightRepository;
+    private static final Logger logger = LoggerFactory.getLogger(SearchService.class);
+
+    @Autowired
+    public SearchService(FlightRepository flightRepository){
+        this.flightRepository = flightRepository;
+    }
+
+    public List<Flight> search(SearchQuery query) {
+        List<Flight> flights = flightRepository.findByOriginAndDestinationAndFlightDate(query.getOrigin(), query.getDestination(), query.getFlightDate());
+
+        List<Flight> searchResult = new ArrayList<>();
+        searchResult.addAll(flights);
+        flights.forEach(flight -> {
+           flight.getFares();
+            int inv = flight.getInventory().getCount();
+            if(inv < 0) {
+                searchResult.remove(flight);
+            }
+        });
+
+        return searchResult;
+    }
+
+    public void updateInventory(String flightNumber, String flightDate, int inventory) {
+        logger.info("Updating inventory for flight "+flightNumber+" inventory "+inventory);
+        Flight flight = flightRepository.findByFlightNumberAndFlightDate(flightNumber, flightDate);
+        Inventory inv = flight.getInventory();
+        inv.setCount(inventory);
+        flightRepository.save(flight);
+    }
+}
