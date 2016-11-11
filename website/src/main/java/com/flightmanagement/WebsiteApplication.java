@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -14,7 +13,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @SpringBootApplication
-@EnableGlobalMethodSecurity
 public class WebsiteApplication implements CommandLineRunner {
 
 	private static final Logger logger = LoggerFactory.getLogger(WebsiteApplication.class);
@@ -35,7 +33,7 @@ public class WebsiteApplication implements CommandLineRunner {
 	@Override
 	public void run(String... strings) throws Exception {
 		//Search for a flight
-		SearchQuery searchQuery = new SearchQuery("NYC","SFO","22-JAN-16");
+		SearchQuery searchQuery = new SearchQuery("SEA","SFO","22-JAN-16");
 
 		Flight[] flights = searchClient.postForObject("http://localhost:8090/search/get", searchQuery, Flight[].class);
 
