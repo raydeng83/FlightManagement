@@ -28,17 +28,21 @@ public class BookingService {
     private static final Logger logger = LoggerFactory.getLogger(BookingService.class);
     private static final String FareURL = "http://localhost:8080/fares";
 
-    @Autowired
-    private BookingRepository bookingRepository;
+    BookingRepository bookingRepository;
+    InventoryRepository inventoryRepository;
 
-    @Autowired
-    private InventoryRepository inventoryRepository;
-
-    @Autowired
     private RestTemplate restTemplate;
 
+    SenderService senderService;
+
     @Autowired
-    private SenderService senderService;
+    public BookingService (BookingRepository bookingRepository,
+                             SenderService senderService,InventoryRepository inventoryRepository){
+        this.bookingRepository = bookingRepository;
+        this.restTemplate = new RestTemplate();
+        this.senderService = senderService;
+        this.inventoryRepository = inventoryRepository;
+    }
 
     public long book(BookingRecord record) {
         logger.info("calling fares to get fare");

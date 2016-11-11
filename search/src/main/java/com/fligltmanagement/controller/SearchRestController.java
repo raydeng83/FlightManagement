@@ -23,7 +23,7 @@ public class SearchRestController {
         this.searchService = searchComponent;
     }
 
-    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    @RequestMapping(value = "/get", method = RequestMethod.POST)
     List<Flight> search(@RequestBody SearchQuery query) {
         System.out.println("Input : " + query);
         return searchService.search(query);
